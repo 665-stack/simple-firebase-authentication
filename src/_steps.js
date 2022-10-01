@@ -7,5 +7,7 @@
 5. export default app
 6. import app firebase init.js into your app.js
 7. import getAuth from firebase/auth and create a var. Like const auth = getAuth(app);
-
+8. turn on google authentication (firebase > authentication > enable google sign in)
+9. create google provider
+10. 
 */
