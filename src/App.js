@@ -1,5 +1,5 @@
 import './App.css';
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth"
+import { getAuth, GithubAuthProvider, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth"
 import app from './firebase.init';
 import { useState } from 'react';
 
@@ -9,10 +9,15 @@ const auth = getAuth(app);
 function App() {
 
   const [user, setUser] = useState({});
-  const provider = new GoogleAuthProvider();
 
+  // Providers
+  const googleProvider = new GoogleAuthProvider();
+  const githubProvider = new GithubAuthProvider();
+
+
+  // sign in
   const handleGoogleSignIn = () => {
-    signInWithPopup(auth, provider)
+    signInWithPopup(auth, googleProvider)
       .then(result => {
         const user = result.user;
         setUser(user)
@@ -22,6 +27,17 @@ function App() {
         console.error(error);
       })
   }
+  const handleGithubSignIn = () => {
+    signInWithPopup(auth, githubProvider)
+      .then(result => {
+        console.log(result.user);
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+  // sign out
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
@@ -35,12 +51,18 @@ function App() {
 
 
   return (
-
     <div className="App">
-      {/* mane email thakle sign out button dekhabe, r email na thakle sign in button dekhabe */}
+      {/* mane email thakle sign out button dekhabe, r email na thakle sign in button dekhabe. akhane google and github duitar button e akshathe deya hoice. karon nalohe ternary operation calano jabe na */}
+
       {
-        user.email ? <button onClick={handleSignOut}>Sign Out</button> :
-          <button onClick={handleGoogleSignIn}>Google Sign In</button>
+        user.email ? <>
+          <button onClick={handleSignOut}>Sign Out</button>
+          <button onClick={handleGithubSignIn}> Github Sign Out</button>
+        </> :
+          <>
+            <button onClick={handleGoogleSignIn}>Google Sign In</button>
+            <button>Github Sign In</button>
+          </>
       }
 
       <h2>User name: {user.displayName}</h2>
