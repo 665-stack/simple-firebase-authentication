@@ -30,10 +30,12 @@ function App() {
   const handleGithubSignIn = () => {
     signInWithPopup(auth, githubProvider)
       .then(result => {
-        console.log(result.user);
+        const user = result.user;
+        setUser(user)
+        console.log(user);
       })
       .catch(error => {
-        console.log(error)
+        console.error(error);
       })
   }
 
@@ -55,13 +57,12 @@ function App() {
       {/* mane email thakle sign out button dekhabe, r email na thakle sign in button dekhabe. akhane google and github duitar button e akshathe deya hoice. karon nalohe ternary operation calano jabe na */}
 
       {
-        user.email ? <>
+        user.uid ? <>
           <button onClick={handleSignOut}>Sign Out</button>
-          <button onClick={handleGithubSignIn}> Github Sign Out</button>
         </> :
           <>
             <button onClick={handleGoogleSignIn}>Google Sign In</button>
-            <button>Github Sign In</button>
+            <button onClick={handleGithubSignIn}>Github Sign In</button>
           </>
       }
 
